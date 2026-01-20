@@ -49,12 +49,22 @@ public:
     bool load(const std::string& filename);
     bool save(const std::string& filename);
 
+    //Edge detect
     void applyGrayscale();
+    uint8_t getGray(int x, int y) const;
     bool applySobelEdgeDetection();
 
-    uint8_t getGray(int x, int y) const;
+    //Blur
+    void SeperateBGR(std::vector<uint8_t> &B, std::vector<uint8_t> &G, std::vector<uint8_t> &R);
+    uint8_t getSingleBGR(const std::vector<uint8_t> &colour, int x, int y) const;
+    bool applyBlur();
+
+    //Sharpen
+    bool applySharpen();
+
+    //Helper Function
     int32_t getWidth() const { return infoHeader.width; }
-    int32_t getHeight() const { return infoHeader.height; }
+    int32_t getHeight() const { return std::abs(infoHeader.height); }
 };
 
 #endif
