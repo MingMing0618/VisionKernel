@@ -1,0 +1,9 @@
+# Executables
+*.exe
+VisionKernel
+
+# Test images and output images
+*.bmp
+
+# VS Code folders
+.vscode/
