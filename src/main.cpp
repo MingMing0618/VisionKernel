@@ -1,4 +1,4 @@
-#include "BMPProcessor.h"
+#include "../include/BMPProcessor.h"
 #include <iostream>
 #include <string>
 
@@ -62,5 +62,5 @@ int main() {
 }
 
 
-// g++ -O3 main.cpp BMPProcessor.cpp -o VisionKernel
+// g++ -O3 src/main.cpp src/BMPProcessor.cpp -I include -o VisionKernel
 // ./VisionKernel.exe

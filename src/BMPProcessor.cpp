@@ -1,4 +1,4 @@
-#include "BMPProcessor.h"
+#include "../include/BMPProcessor.h"
 #include <fstream>
 #include <cstdint>
 #include <cmath>
