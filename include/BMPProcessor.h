@@ -54,9 +54,11 @@ public:
     uint8_t getGray(int x, int y) const;
     bool applySobelEdgeDetection();
 
-    //Blur
+    //Blur and Sharpen
     void SeperateBGR(std::vector<uint8_t> &B, std::vector<uint8_t> &G, std::vector<uint8_t> &R);
     uint8_t getSingleBGR(const std::vector<uint8_t> &colour, int x, int y) const;
+
+    //Blur
     bool applyBlur();
 
     //Sharpen

@@ -175,7 +175,7 @@ bool BMPProcessor::applyBlur(){
     
     SeperateBGR(B, G, R);
     
-    float addBrightness = 1.02;
+    float addBrightness = 1.01;
     for (int y=0; y<getHeight(); y++){
 
         for (int x=0; x<getWidth(); x++){
@@ -210,6 +210,60 @@ bool BMPProcessor::applyBlur(){
     }
 
     pixels = result;
+    return true;
+
+}
+
+bool BMPProcessor::applySharpen(){
+
+    std::vector<uint8_t> B, G, R, b, g, r, result; //b, g, r: store the new pixel value
+    int t1, t2, t3; // temp for storing computation result
+    B.resize(getWidth()*getHeight()); b.resize(getWidth()*getHeight());
+    G.resize(getWidth()*getHeight()); g.resize(getWidth()*getHeight());
+    R.resize(getWidth()*getHeight()); r.resize(getWidth()*getHeight());
+    result.resize(getWidth()*getHeight()*3);
+    
+    SeperateBGR(B, G, R);
+    b = B; g = G; r = R;
+    
+    for (int y=0; y<getHeight(); y++){
+
+        for (int x=0; x<getWidth(); x++){
+            int index = y*getWidth()+x; 
+            t1 =  getSingleBGR(B,x-1,y-1)*0 + getSingleBGR(B,x,y-1)*-1 + getSingleBGR(B,x+1,y-1)*0 +
+                        getSingleBGR(B,x-1,y)*-1  + getSingleBGR(B,x,y)*5    + getSingleBGR(B,x+1,y)*-1 +
+                        getSingleBGR(B,x-1,y+1)*0 + getSingleBGR(B,x,y+1)*-1 + getSingleBGR(B,x+1,y+1)*0;
+            if (t1>255) t1=255;
+            if (t1<0) t1=0;
+            b[index] = t1;
+
+            t2 =  getSingleBGR(G,x-1,y-1)*0 + getSingleBGR(G,x,y-1)*-1 + getSingleBGR(G,x+1,y-1)*0 +
+                        getSingleBGR(G,x-1,y)*-1  + getSingleBGR(G,x,y)*5    + getSingleBGR(G,x+1,y)*-1 +
+                        getSingleBGR(G,x-1,y+1)*0 + getSingleBGR(G,x,y+1)*-1 + getSingleBGR(G,x+1,y+1)*0;
+            if (t2>255) t2=255;
+            if (t2<0) t2=0;
+            g[index] = t2;
+
+            t3 =  getSingleBGR(R,x-1,y-1)*0 + getSingleBGR(R,x,y-1)*-1 + getSingleBGR(R,x+1,y-1)*0 +
+                        getSingleBGR(R,x-1,y)*-1  + getSingleBGR(R,x,y)*5    + getSingleBGR(R,x+1,y)*-1 +
+                        getSingleBGR(R,x-1,y+1)*0 + getSingleBGR(R,x,y+1)*-1 + getSingleBGR(R,x+1,y+1)*0;
+            if (t3>255) t3=255; 
+            if (t3<0) t3=0;
+            r[index] = t3;
+        }
+    }
+
+    for (int i=0; i<getHeight(); i++){
+
+        for (int j=0; j<getWidth(); j++){
+            result[i*getWidth()*3 + j*3] = b[i*getWidth()+j];
+            result[i*getWidth()*3 + j*3 + 1] = g[i*getWidth()+j];
+            result[i*getWidth()*3 + j*3 + 2] = r[i*getWidth()+j];
+        }
+    }
+
+    pixels = result;
+    std::cout << "......Image is successfully sharpened!" << std::endl;
     return true;
 
 }
